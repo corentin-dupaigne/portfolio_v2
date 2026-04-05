@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Managing multi-env deployments with ArgoCD ApplicationSets — yourname</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="/" class="site-name">yourname</a>
+      <a href="/">about</a>
+      <a href="/journal/" class="active">journal</a>
+    </nav>
+
+    
+  <article>
+    <p class="post-title">Managing multi-env deployments with ArgoCD ApplicationSets</p>
+    <p class="post-meta">
+      <span class="date">2025-03-18</span><span class="tag">gitops</span>
+    </p>
+
+    <hr />
+
+    <p>We have five environments: dev, staging, preprod, prod-eu, prod-us. For a
+while we maintained one ArgoCD Application per service per environment —
+which meant around 80 Application manifests to keep in sync. It was fine
+until it wasn&rsquo;t.</p>
+<h3 id="the-problem">The problem</h3>
+<p>Updating a Helm values path required touching 16 files. Drift between
+environments was subtle and hard to catch. New services got inconsistent
+Application definitions depending on who set them up.</p>
+<h3 id="applicationsets-to-the-rescue">ApplicationSets to the rescue</h3>
+<p>ApplicationSets are a controller that generates ArgoCD Applications from a
+template plus a list of parameters. The <code>List</code> generator is the simplest:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">argoproj.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ApplicationSet</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">generators</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">list</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">elements</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">env</span>: <span style="color:#ae81ff">dev</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">dev-cluster</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">valuesFile</span>: <span style="color:#ae81ff">values-dev.yaml</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">env</span>: <span style="color:#ae81ff">prod-eu</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">prod-eu-cluster</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">valuesFile</span>: <span style="color:#ae81ff">values-prod.yaml</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;my-service-{{env}}&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">project</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">source</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">repoURL</span>: <span style="color:#ae81ff">https://github.com/org/helm-charts</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">targetRevision</span>: <span style="color:#ae81ff">HEAD</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">path</span>: <span style="color:#ae81ff">charts/my-service</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">helm</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFiles</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#e6db74">&#34;{{valuesFile}}&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">destination</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">server</span>: <span style="color:#e6db74">&#34;{{cluster}}&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">my-service</span>
+</span></span></code></pre></div><h3 id="what-changed">What changed</h3>
+<p>One ApplicationSet per service. Adding a new environment is one line in the
+<code>elements</code> list. Structural changes to Application definitions happen in one
+place.</p>
+<p>The <code>Matrix</code> generator is next on my list — combining cluster and app lists
+to generate the full cross-product automatically.</p>
+
+  </article>
+
+
+    <footer>updated april 2025</footer>
+  </div>
+  
+</body>
+</html>

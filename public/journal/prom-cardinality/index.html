@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debugging high-cardinality metrics in Prometheus — yourname</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="/" class="site-name">yourname</a>
+      <a href="/">about</a>
+      <a href="/journal/" class="active">journal</a>
+    </nav>
+
+    
+  <article>
+    <p class="post-title">Debugging high-cardinality metrics in Prometheus</p>
+    <p class="post-meta">
+      <span class="date">2025-03-05</span><span class="tag">observability</span>
+    </p>
+
+    <hr />
+
+    <p>Our Prometheus instance started OOMing every few days. The usual suspects —
+long retention, too many targets — checked out fine. The actual cause took
+longer to find: a single metric with unbounded label cardinality.</p>
+<h3 id="finding-the-offender">Finding the offender</h3>
+<p>The <code>prometheus_tsdb_symbol_table_size_bytes</code> metric going up is a
+leading indicator, but doesn&rsquo;t tell you which metric is responsible.
+The TSDB status page does:</p>
+<pre tabindex="0"><code>http://prometheus:9090/tsdb-status
+</code></pre><p>It lists the top 10 metrics by series count, head chunks, and memory.
+Ours had one metric at 4 million active series. Normal services have a few
+thousand.</p>
+<h3 id="the-root-cause">The root cause</h3>
+<p>A developer had added a <code>request_id</code> label to a counter — effectively
+making every HTTP request its own unique time series. Prometheus stores
+every unique label combination as a separate series. A label with
+unbounded values is a cardinality bomb.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># Bad</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">http_requests_total{method=&#34;GET&#34;, path=&#34;/api/users&#34;, request_id=&#34;abc-123&#34;} 1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Good</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">http_requests_total{method=&#34;GET&#34;, path=&#34;/api/users&#34;, status=&#34;200&#34;} 42</span>
+</span></span></code></pre></div><h3 id="the-fix">The fix</h3>
+<p>We dropped the label at the recording rule level while the developer
+fixed the instrumentation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>- <span style="color:#f92672">record</span>: <span style="color:#ae81ff">http_requests_total_safe</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">expr</span>: <span style="color:#ae81ff">sum without(request_id) (http_requests_total)</span>
+</span></span></code></pre></div><p>Then we added a <code>metric_relabel_configs</code> rule in the scrape config to
+drop the label at ingest time as a long-term guard.</p>
+<h3 id="takeaway">Takeaway</h3>
+<p>High cardinality is the most common cause of Prometheus memory issues.
+Label values should come from a bounded set — status codes, HTTP methods,
+service names. Never user IDs, request IDs, or timestamps.</p>
+
+  </article>
+
+
+    <footer>updated april 2025</footer>
+  </div>
+  
+</body>
+</html>

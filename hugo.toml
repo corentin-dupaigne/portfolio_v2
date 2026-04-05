@@ -1,0 +1,14 @@
+baseURL = "/"
+languageCode = "en"
+title = "yourname"
+disableKinds = ["taxonomy", "term"]
+
+[params]
+  name        = "yourname"
+  role        = "Platform Engineer"
+  tagline     = "Building infrastructure that teams forget exists."
+  footerText  = "updated april 2025"
+
+  [params.social]
+    github   = "https://github.com/yourname"
+    linkedin = "https://linkedin.com/in/yourname"

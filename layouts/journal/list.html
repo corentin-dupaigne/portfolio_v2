@@ -1,0 +1,14 @@
+{{ define "main" }}
+  <h2>journal</h2>
+
+  <ul class="journal-list">
+    {{ range .Pages }}
+    <li>
+      <span class="date">{{ .Date.Format "2006-01-02" }}</span>
+      <a href="{{ .RelPermalink }}">
+        {{ .Title }}{{ with .Params.tag }}<span class="tag">{{ . }}</span>{{ end }}
+      </a>
+    </li>
+    {{ end }}
+  </ul>
+{{ end }}
