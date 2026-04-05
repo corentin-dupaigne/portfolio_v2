@@ -9,5 +9,3 @@ stacks, and the boring-but-critical glue in between.
 I'm currently deepening my knowledge of eBPF-based networking and
 GitOps patterns. This site is where I document what I learn, what
 breaks, and what I figure out.
-
-*This journal is for me as much as it is for anyone reading it.*
