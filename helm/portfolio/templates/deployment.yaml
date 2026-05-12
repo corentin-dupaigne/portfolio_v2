@@ -1,0 +1,25 @@
+{{- $fullName := include "portfolio.fullname" . -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ $fullName }}
+  name: {{ $fullName }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $fullName }}
+  template:
+    metadata:
+      labels:
+        app: {{ $fullName }}
+    spec:
+      containers:
+        - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          name: portfolio
+          resources: {}
+          ports:
+          - containerPort: {{ .Values.containerPort }}
+            name: http
+            protocol: TCP

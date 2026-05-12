@@ -1,0 +1,5 @@
+Application deployed. Access at:
+
+  http://{{ .Values.hostname }}
+
+Gateway: {{ .Values.gateway.namespace }}/{{ .Values.gateway.name }}

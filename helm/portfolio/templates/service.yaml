@@ -1,0 +1,13 @@
+{{- $fullName := include "portfolio.fullname" . -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "portfolio.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: {{ $fullName }}
+  ports:
+    - port: {{ .Values.servicePort }}
+      targetPort: {{ .Values.containerPort }}

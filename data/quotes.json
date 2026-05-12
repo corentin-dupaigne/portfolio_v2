@@ -1,16 +1,11 @@
-[
-  {"text": "Complexity is the enemy of reliability.", "author": "Werner Vogels"},
-  {"text": "You build it, you run it.", "author": "Werner Vogels"},
-  {"text": "Everything fails, all the time.", "author": "Werner Vogels"},
-  {"text": "Hope is not a strategy.", "author": "SRE Book, Google"},
-  {"text": "Make it work, make it right, make it fast.", "author": "Kent Beck"},
-  {"text": "The goal of infrastructure is to be invisible.", "author": "Charity Majors"},
-  {"text": "If you can't measure it, you can't improve it.", "author": "Peter Drucker"},
-  {"text": "Automate yourself out of a job, then find a harder one.", "author": "Unknown"},
-  {"text": "Observability is not about collecting data. It's about asking questions you haven't thought of yet.", "author": "Charity Majors"},
-  {"text": "Slow is smooth, smooth is fast.", "author": "Navy SEALs"},
-  {"text": "Any sufficiently advanced bug is indistinguishable from a feature.", "author": "Rich Kulawiec"},
-  {"text": "The best ops people treat production like a learning environment, not a crime scene.", "author": "Charity Majors"},
-  {"text": "A distributed system is one in which the failure of a computer you didn't even know existed can render your own computer unusable.", "author": "Leslie Lamport"},
-  {"text": "Reliable systems are not built by avoiding failure. They are built by designing for it.", "author": "Unknown"}
-]
+{
+  "items": [
+    {"active": true, "text": "If you really look closely, most overnight successes took a long time.", "author": "Steve Jobs"},
+    {"active": true, "text": "The greatest glory in living lies not in never falling, but in rising every time we fall.", "author": "Nelson Mandela"},
+    {"active": true, "text": "Sometimes things aren't clear right away. That's where you need to be patient and persevere and see where things lead.", "author": "Mary Pierce"},
+    {"active": true, "text": "The best revenge is not to be like your enemy.", "author": "Marcus Aurelius"},
+    {"active": true, "text": "In the long-run (and often in the short-run), your willpower will never beat your environment. The more disciplined your environment is, the less disciplined you need to be. Don't swim upstream.", "author": "James Clear, Atomic Habits"},
+    {"active": true, "text": "Things that have never happened before happen all the time.", "author": "Morgan Housel"},
+    {"active": false, "text": "Some people are born into families that encourage education; others are against it. Some are born into flourishing economies encouraging of entrepreneurship; others are born into war and destitution. I want you to be successful, and I want you to earn it. But realize that not all success is due to hard work, and not all poverty is due to laziness. Keep this in mind when judging people, including yourself.", "author": "Morgan Housel, The Psychology of Money"}
+  ]
+}

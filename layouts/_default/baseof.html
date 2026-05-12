@@ -13,13 +13,11 @@
   <div class="container">
     <nav>
       <a href="{{ "/" | relURL }}" class="site-name">{{ .Site.Params.name }}</a>
-      <a href="{{ "/" | relURL }}"{{ if .IsHome }} class="active"{{ end }}>about</a>
       <a href="{{ "/journal/" | relURL }}"{{ if eq .Section "journal" }} class="active"{{ end }}>journal</a>
     </nav>
 
     {{ block "main" . }}{{ end }}
 
-    <footer>{{ .Site.Params.footerText }}</footer>
   </div>
   {{ block "scripts" . }}{{ end }}
 </body>

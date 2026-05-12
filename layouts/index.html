@@ -49,7 +49,7 @@
 
 {{ define "scripts" }}
 <script>
-  const quotes = {{ site.Data.quotes | jsonify | safeJS }};
+  const quotes = {{ site.Data.quotes.items | jsonify | safeJS }}.filter(q => q.active);
   const q = quotes[Math.floor(Math.random() * quotes.length)];
   document.getElementById('quote-text').textContent = q.text;
   document.getElementById('quote-author').textContent = '— ' + q.author;

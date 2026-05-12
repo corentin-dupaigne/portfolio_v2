@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  repository: "ghcr.io/corentin-dupaigne/portfolio-v2"
+  tag: "prod"
+
+hostname: "corentindupaigne.com"
+
+gateway:
+  name: gateway
+  namespace: default
+
+servicePort: 80
+containerPort: 80
