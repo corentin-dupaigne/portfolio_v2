@@ -1,0 +1,81 @@
+# Sveltia CMS — local workflow only.
+#
+# Run `hugo server`, open http://localhost:1313/admin/ in a Chromium-based
+# browser, and click "Work with Local Repository". Sveltia writes straight to
+# the files in this working tree; it performs no Git operations, so you commit
+# and push yourself.
+#
+# The `backend` block below is required by the config schema but unused in the
+# local workflow — no OAuth application exists and no network calls are made.
+# This directory is excluded from the production image via .dockerignore.
+
+backend:
+  name: github
+  repo: corentin-dupaigne/portfolio_v2
+  branch: main
+
+media_folder: "static/images"
+public_folder: "/images"
+
+collections:
+  - name: journal
+    label: "Journal"
+    label_singular: "Post"
+    folder: "content/journal"
+    path: "{{slug}}"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "yaml-frontmatter"
+    sortable_fields: ["date", "title"]
+    fields:
+      - { name: title, label: "Title", widget: string }
+      - name: date
+        label: "Date"
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: true
+      - { name: tag, label: "Tag", widget: string, required: false }
+      - { name: body, label: "Body", widget: markdown }
+
+  - name: pages
+    label: "Pages"
+    files:
+      - name: about
+        label: "Home / About"
+        file: "content/_index.md"
+        fields:
+          - { name: title, label: "Title", widget: string }
+          - { name: body, label: "About text", widget: markdown }
+
+      - name: site
+        label: "Site text"
+        file: "data/site.yaml"
+        fields:
+          - { name: name, label: "Your name", widget: string }
+          - { name: role, label: "Role", widget: string }
+          - { name: tagline, label: "Tagline", widget: text }
+          - name: social
+            label: "Social links"
+            widget: object
+            fields:
+              - { name: github, label: "GitHub URL", widget: string, required: false }
+              - { name: linkedin, label: "LinkedIn URL", widget: string, required: false }
+
+      - name: quotes
+        label: "Quotes"
+        file: "data/quotes.json"
+        fields:
+          - name: items
+            label: "Quotes"
+            label_singular: "Quote"
+            widget: list
+            summary: "{{fields.author}} — {{fields.text}}"
+            fields:
+              - { name: text, label: "Quote", widget: text }
+              - { name: author, label: "Author", widget: string }
+              - name: active
+                label: "Show on site"
+                widget: boolean
+                default: true

@@ -1,0 +1,10 @@
+# The CMS is a local-authoring tool; it has no place in the served image.
+static/admin/
+
+.git/
+.github/
+helm/
+public/
+*.tgz
+Dockerfile
+.dockerignore

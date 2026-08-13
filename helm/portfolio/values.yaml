@@ -1,8 +1,18 @@
 replicaCount: 1
 
 image:
-  repository: "ghcr.io/corentin-dupaigne/portfolio-v2"
+  repository: "ghcr.io/corentin-dupaigne/portfolio-v2/portfolio-v2"
+  # Managed by .github/workflows/build-and-release.yml — every push to main
+  # rewrites this to the commit SHA, which is what triggers the Argo CD sync.
+  # Do not set this back to a mutable tag.
   tag: "prod"
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 16Mi
+  limits:
+    memory: 64Mi
 
 hostname: "corentindupaigne.com"
 

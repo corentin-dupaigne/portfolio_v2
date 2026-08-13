@@ -1,13 +1,6 @@
 baseURL = "/"
 languageCode = "en"
-title = "yourname"
+title = "Corentin Dupaigne"
 disableKinds = ["taxonomy", "term"]
 
-[params]
-  name        = "Corentin Dupaigne"
-  role        = "Platform Engineer"
-  tagline     = "Building infrastructure that teams forget exists."
-
-  [params.social]
-    github   = "https://github.com/yourname"
-    linkedin = "https://linkedin.com/in/yourname"
+# Site text lives in data/site.yaml so it can be edited from /admin/.

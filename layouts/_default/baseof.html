@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ if .IsHome }}{{ .Site.Params.name }} — {{ .Site.Params.role }}{{ else }}{{ .Title }} — {{ .Site.Params.name }}{{ end }}</title>
+  <title>{{ if .IsHome }}{{ site.Data.site.name }} — {{ site.Data.site.role }}{{ else }}{{ .Title }} — {{ site.Data.site.name }}{{ end }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
 <body>
   <div class="container">
     <nav>
-      <a href="{{ "/" | relURL }}" class="site-name">{{ .Site.Params.name }}</a>
+      <a href="{{ "/" | relURL }}" class="site-name">{{ site.Data.site.name }}</a>
       <a href="{{ "/journal/" | relURL }}"{{ if eq .Section "journal" }} class="active"{{ end }}>journal</a>
     </nav>
 
