@@ -4,3 +4,8 @@ title = "Corentin Dupaigne"
 disableKinds = ["taxonomy", "term"]
 
 # Site text lives in data/site.yaml so it can be edited from /admin/.
+
+# Let standalone images escape their <p> so the image render hook can emit a
+# bare <figure> (see layouts/_default/_markup/render-image.html).
+[markup.goldmark.parser]
+wrapStandAloneImageWithinParagraph = false

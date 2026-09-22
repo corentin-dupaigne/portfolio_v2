@@ -71,3 +71,17 @@ article ul, article ol { margin: 0.5rem 0 1rem 1.5rem; }
 article li { font-size: 0.9rem; margin-bottom: 0.25rem; max-width: 58ch; }
 
 footer { margin-top: 5rem; font-size: 0.72rem; color: var(--muted); }
+
+/* figures */
+article figure { margin: 1.5rem 0; }
+article img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 2px; }
+article figure img { margin-inline: auto; }
+article figcaption { font-size: 0.72rem; color: var(--muted); margin-top: 0.5rem; }
+
+/* wide screenshots outgrow the text column once there is room for them */
+@media (min-width: 940px) {
+  article figure { width: 880px; margin-left: calc(50% - 440px); }
+}
+
+/* long URLs and inline code must not force the page wider than the viewport */
+article a, article code { overflow-wrap: anywhere; }
