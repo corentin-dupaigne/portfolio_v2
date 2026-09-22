@@ -1,10 +1,7 @@
 ---
-title: "About"
+title: About
 ---
 
-Platform engineer based in Paris. I build and maintain the infrastructure
-that lets product teams ship — Kubernetes, CI/CD pipelines, observability
-stacks, and the boring-but-critical glue in between.
+EPITA student and apprentice at Enedis, based in Paris. I like taking apart the systems everyone takes for granted to understand why they were built the way they were.
 
-This site is where I document what I learn, what
-breaks, and what I figure out.
+At the moment I'm digging into kernel-level networking by writing my own CNI plugin in Go.
