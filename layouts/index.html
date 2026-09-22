@@ -3,8 +3,6 @@
 
   <hr />
 
-  <h2>about</h2>
-
   {{ .Content }}
 
   <div class="social-links">
@@ -33,13 +31,11 @@
 
   <hr />
 
-  <h2>recent entries</h2>
+  <h2>writing</h2>
 
   <ul class="journal-list">
     {{ range first 3 (where site.RegularPages "Section" "journal") }}{{ partial "entry.html" (dict "page" .) }}{{ end }}
   </ul>
-
-  <p class="more"><a href="{{ "/journal/" | relURL }}">all entries →</a></p>
 {{ end }}
 
 {{ define "scripts" }}

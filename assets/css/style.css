@@ -95,11 +95,10 @@ hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 .more a { color: var(--muted); text-decoration: none; }
 .more a:hover { color: var(--accent); opacity: 1; }
 
+/* soft page-load fade; nav and footer stay put so the page never feels empty */
 @media (prefers-reduced-motion: no-preference) {
-  .journal-list { animation: rise 0.45s ease-out both; }
+  main { animation: fade-in 0.4s ease-out both; }
 }
-/* starts visible so the list never renders blank if the animation stalls */
-@keyframes rise { from { opacity: 0.35; transform: translateY(4px); } }
 
 /* reading progress — pure CSS, hidden where scroll timelines are unsupported */
 .progress { display: none; }
@@ -274,6 +273,6 @@ code { font-family: var(--mono); }
 }
 
 /* footer */
-.site-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: clamp(4rem, 10vw, 6rem); padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.72rem; color: var(--muted); }
+.site-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: clamp(4rem, 10vw, 6rem); font-size: 0.72rem; color: var(--muted); }
 .site-footer a { color: var(--muted); text-decoration: none; }
 .site-footer a:hover { color: var(--accent); opacity: 1; }

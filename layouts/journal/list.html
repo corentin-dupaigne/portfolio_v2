@@ -1,5 +1,5 @@
 {{ define "main" }}
-  <h2>journal</h2>
+  <h2>writing</h2>
 
   <ul class="journal-list">
     {{ range .Pages }}{{ partial "entry.html" (dict "page" .) }}{{ end }}

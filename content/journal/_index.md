@@ -1,3 +1,3 @@
 ---
-title: "Journal"
+title: "Writing"
 ---
