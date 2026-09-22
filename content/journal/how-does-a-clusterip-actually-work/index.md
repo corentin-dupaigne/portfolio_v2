@@ -4,7 +4,7 @@ date: 2026-09-22
 tag: networking kubernetes linux-kernel
 ---
 
-A ClusterIP is a Kubernetes resource that associates a stable virtual IP to a set of pods (a Service's endpoints). It is a dumb entity. A load balancer (usually kube-proxy) then redirects the packet to the real IP of one of the pod replicas. By default the packet is redirected to a random replica with no preference. P(1/N) (N being the number of replicas)
+A ClusterIP is a Kubernetes resource that associates a stable virtual IP to a set of pods (a Service's endpoints). It is a dumb entity. A load balancer (usually kube-proxy) then redirects the packet to the real IP of one of the pod replicas. By default the packet is redirected to a random replica with no preference. P(1/N) (N being the number of replicas).
 
 ![](20260922-174207.png)
 
