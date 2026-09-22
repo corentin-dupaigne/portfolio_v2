@@ -33,7 +33,7 @@ At each hook point it is possible to register callback functions; the kernel cal
 
 For a ClusterIP, the rewrite that matters is DNAT at the PREROUTING hook. The client connects to the virtual IP, and DNAT swaps the destination to a chosen pod's real IP _before routing_ (it must be pre-routing, since the new destination decides where the packet is routed).
 
-A callback doesn't register rules. It **walks a chain**, an ordered list of rules. Each rule is `<match> + <target>`: match is a boolean condition that, if true, applies the target's verdict.
+A callback doesn't register rules. It walks a chain, an ordered list of rules. Each rule is `<match> + <target>`: match is a boolean condition that, if true, applies the target's verdict.
 
 e.g.: `sudo iptables -t nat -A PREROUTING -d 10.96.72.11 --dport 80 -j DNAT --to-destination 10.244.0.9:8080`
 
