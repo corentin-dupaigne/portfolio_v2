@@ -1,6 +1,10 @@
+{{- /* Journal list row. Context: dict "page" <Page> "format" <date layout>. */ -}}
+{{- with .page -}}
 <li>
   <a href="{{ .RelPermalink }}">
-    <time class="date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan 2006" }}</time>
-    <span class="entry-title">{{ .Title }}{{ with .Params.tag }}<span class="tag">{{ . }}</span>{{ end }}</span>
+    <time class="date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format ($.format | default "2006-01-02") }}</time>
+    <span class="entry-title">{{ .Title }}</span>
+    {{ partial "tags.html" . }}
   </a>
 </li>
+{{- end -}}

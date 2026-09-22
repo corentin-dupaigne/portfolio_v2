@@ -1,7 +1,12 @@
-<footer>
+<footer class="site-footer">
   <span>© {{ now.Format "2006" }} {{ site.Data.site.name }}</span>
-  <span>
-    {{- with site.Home.OutputFormats.Get "rss" }}<a href="{{ .Permalink }}">rss</a> · {{ end -}}
-    <a href="{{ "/journal/" | relURL }}">journal</a>
-  </span>
+  {{- /* Links are dropped when their value in data/site.yaml is empty. */}}
+  {{- $links := slice }}
+  {{- with site.Data.site.social }}
+    {{- with .github }}{{ $links = $links | append (printf `<a href="%s" target="_blank" rel="noopener">github</a>` (. | htmlEscape)) }}{{ end }}
+    {{- with .resume }}{{ $links = $links | append (printf `<a href="%s" target="_blank" rel="noopener">resume</a>` (. | relURL | htmlEscape)) }}{{ end }}
+    {{- with .linkedin }}{{ $links = $links | append (printf `<a href="%s" target="_blank" rel="noopener">linkedin</a>` (. | htmlEscape)) }}{{ end }}
+    {{- with .email }}{{ $links = $links | append (printf `<a href="mailto:%s">mail</a>` (. | htmlEscape)) }}{{ end }}
+  {{- end }}
+  <span class="footer-links">{{ delimit $links " · " | safeHTML }}</span>
 </footer>

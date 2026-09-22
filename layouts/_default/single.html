@@ -1,12 +1,86 @@
+{{ define "progress" }}<div class="progress" aria-hidden="true"></div>{{ end }}
+
 {{ define "main" }}
-  <article>
-    <p class="post-title">{{ .Title }}</p>
-    <p class="post-meta">
-      <span class="date">{{ .Date.Format "2006-01-02" }}</span>{{ with .Params.tag }}<span class="tag">{{ . }}</span>{{ end }}
-    </p>
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">{{ .Title }}</h1>
+      <p class="post-meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+        <span class="sep">·</span>
+        <span>{{ .ReadingTime }} min read</span>
+        {{ partial "tags.html" . }}
+      </p>
+    </header>
 
-    <hr />
+    {{- /* Only worth a table of contents once there is something to navigate. */ -}}
+    {{ $sections := 0 }}
+    {{ range .Fragments.HeadingsMap }}{{ if ge .Level 2 }}{{ $sections = add $sections 1 }}{{ end }}{{ end }}
+    {{ if ge $sections 3 }}
+    <aside class="toc-rail">
+      <details class="toc" open>
+        <summary>contents</summary>
+        {{ .TableOfContents }}
+      </details>
+    </aside>
+    {{ end }}
 
-    {{ .Content }}
+    <div class="prose">
+      {{ .Content }}
+    </div>
+
+    {{ if eq .Section "journal" }}
+    <nav class="post-nav" aria-label="More entries">
+      {{ with .PrevInSection }}
+      <a class="post-nav-link prev" href="{{ .RelPermalink }}">
+        <span class="label">← older</span>
+        <span class="title">{{ .Title }}</span>
+      </a>
+      {{ end }}
+      {{ with .NextInSection }}
+      <a class="post-nav-link next" href="{{ .RelPermalink }}">
+        <span class="label">newer →</span>
+        <span class="title">{{ .Title }}</span>
+      </a>
+      {{ end }}
+    </nav>
+    {{ end }}
   </article>
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+  // Copy buttons on code blocks (markup emitted by render-codeblock.html).
+  document.querySelectorAll('.code-block .copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const code = btn.closest('.code-block').querySelector('pre code');
+      try {
+        await navigator.clipboard.writeText(code.innerText.replace(/\n$/, ''));
+        btn.textContent = 'copied';
+      } catch {
+        btn.textContent = 'failed';
+      }
+      setTimeout(() => { btn.textContent = 'copy'; }, 1500);
+    });
+  });
+
+  // Images shrunk to fit the column open at full size in a lightbox.
+  const images = [...document.querySelectorAll('.prose figure img[width]')];
+  const markZoomable = () => images.forEach((img) => {
+    img.classList.toggle('can-zoom', img.clientWidth < img.getAttribute('width') * 0.85);
+  });
+  markZoomable();
+  addEventListener('resize', markZoomable);
+
+  const lightbox = document.createElement('dialog');
+  lightbox.className = 'lightbox';
+  lightbox.addEventListener('click', () => lightbox.close());
+  document.body.append(lightbox);
+  images.forEach((img) => img.addEventListener('click', () => {
+    if (!img.classList.contains('can-zoom')) return;
+    const full = img.cloneNode();
+    full.removeAttribute('loading');
+    lightbox.replaceChildren(full);
+    lightbox.showModal();
+  }));
+</script>
 {{ end }}

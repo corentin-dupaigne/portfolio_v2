@@ -1,0 +1,9 @@
+{{- /* The CMS stores `tag` as one string ("networking kubernetes"); a YAML
+       list works too. Either way, render one chip per tag. */ -}}
+{{- with .Params.tag -}}
+  {{- $tags := . -}}
+  {{- if not (reflect.IsSlice .) }}{{ $tags = split (replace . "," " ") " " }}{{ end -}}
+  <span class="tags">
+    {{- range $tags }}{{ with strings.TrimSpace . }}<span class="tag">{{ . }}</span>{{ end }}{{ end -}}
+  </span>
+{{- end -}}

@@ -66,6 +66,8 @@ collections:
             fields:
               - { name: github, label: "GitHub URL", widget: string, required: false }
               - { name: linkedin, label: "LinkedIn URL", widget: string, required: false }
+              - { name: resume, label: "Resume URL (or /resume.pdf in static/)", widget: string, required: false }
+              - { name: email, label: "Email address", widget: string, required: false }
 
       - name: quotes
         label: "Quotes"

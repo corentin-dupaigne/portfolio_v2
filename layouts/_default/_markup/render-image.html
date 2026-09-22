@@ -1,8 +1,22 @@
+{{- /* Images render at their natural size (capped by the column, never
+       upscaled). Raster images from the page bundle are classified by their
+       dominant colour: light ones (diagrams) blend into the paper, dark ones
+       (terminal screenshots) get a window-like frame and a shared scale so
+       their text sizes match. */ -}}
+{{- $img := or (.Page.Resources.Get .Destination) (resources.Get .Destination) -}}
+{{- $attrs := "" -}}
+{{- $tone := "" -}}
+{{- with $img -}}
+  {{- if and (eq .ResourceType "image") (ne .MediaType.SubType "svg") -}}
+    {{- $attrs = printf ` width="%d" height="%d" style="--w: %dpx"` .Width .Height .Width -}}
+    {{- with index .Colors 0 }}{{ $tone = cond (gt .Luminance 0.5) "is-light" "is-dark" }}{{ end -}}
+  {{- end -}}
+{{- end -}}
 {{- if .IsBlock -}}
 <figure>
-  <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" loading="lazy" decoding="async" />
+  <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}"{{ $attrs | safeHTMLAttr }}{{ with $tone }} class="{{ . }}"{{ end }} loading="lazy" decoding="async" />
   {{ with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}
 </figure>
 {{- else -}}
-<img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" title="{{ .Title }}" loading="lazy" decoding="async" />
+<img src="{{ .Destination | safeURL }}" alt="{{ .Text }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ $attrs | safeHTMLAttr }}{{ with $tone }} class="{{ . }}"{{ end }} loading="lazy" decoding="async" />
 {{- end -}}

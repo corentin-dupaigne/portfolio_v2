@@ -9,3 +9,13 @@ disableKinds = ["taxonomy", "term"]
 # bare <figure> (see layouts/_default/_markup/render-image.html).
 [markup.goldmark.parser]
 wrapStandAloneImageWithinParagraph = false
+
+# Emit CSS classes instead of inline monokai styles so code blocks can use the
+# site palette (see the .chroma rules in assets/css/style.css).
+[markup.highlight]
+noClasses = false
+
+[markup.tableOfContents]
+startLevel = 2
+endLevel = 3
+ordered = false

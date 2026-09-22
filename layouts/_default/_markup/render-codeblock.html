@@ -1,0 +1,9 @@
+{{- $lang := .Type -}}
+{{- if in (slice "plain" "text" "txt" "plaintext") $lang }}{{ $lang = "" }}{{ end -}}
+<div class="code-block">
+  <div class="code-head">
+    <span class="code-lang">{{ $lang }}</span>
+    <button type="button" class="copy" aria-label="Copy code to clipboard">copy</button>
+  </div>
+  {{- (transform.HighlightCodeBlock .).Wrapped -}}
+</div>

@@ -1,13 +1,4 @@
-<nav>
+<nav class="site-nav">
   <a href="{{ "/" | relURL }}" class="site-name">{{ site.Data.site.name }}</a>
   <a href="{{ "/journal/" | relURL }}"{{ if eq .Section "journal" }} class="active"{{ end }}>journal</a>
-  <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle colour theme" title="Toggle colour theme">
-    <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="4.5"/>
-      <path d="M12 1.5v2.5M12 20v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M1.5 12h2.5M20 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8" stroke-linecap="round"/>
-    </svg>
-    <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z" stroke-linejoin="round"/>
-    </svg>
-  </button>
 </nav>
