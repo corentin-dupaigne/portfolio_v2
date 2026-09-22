@@ -1,0 +1,7 @@
+<footer>
+  <span>© {{ now.Format "2006" }} {{ site.Data.site.name }}</span>
+  <span>
+    {{- with site.Home.OutputFormats.Get "rss" }}<a href="{{ .Permalink }}">rss</a> · {{ end -}}
+    <a href="{{ "/journal/" | relURL }}">journal</a>
+  </span>
+</footer>
