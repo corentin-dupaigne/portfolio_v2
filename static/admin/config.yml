@@ -22,7 +22,11 @@ collections:
     label: "Journal"
     label_singular: "Post"
     folder: "content/journal"
-    path: "{{slug}}"
+    path: "{{slug}}/index"
+    # Posts are Hugo leaf bundles: content/journal/<slug>/index.md with the
+    # post's images alongside it, so relative image links resolve correctly.
+    media_folder: ""
+    public_folder: ""
     create: true
     slug: "{{slug}}"
     extension: "md"
