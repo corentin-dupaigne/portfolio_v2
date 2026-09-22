@@ -95,9 +95,11 @@ hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 .more a { color: var(--muted); text-decoration: none; }
 .more a:hover { color: var(--accent); opacity: 1; }
 
-/* soft page-load fade; nav and footer stay put so the page never feels empty */
+/* soft page-load fade; nav and footer stay put so the page never feels empty.
+   Animating opacity isolates <main>, so it carries the paper colour for the
+   multiply-blended diagrams (img.is-light) to blend with instead of white. */
 @media (prefers-reduced-motion: no-preference) {
-  main { animation: fade-in 0.4s ease-out both; }
+  main { background: var(--bg); animation: fade-in 0.4s ease-out backwards; }
 }
 
 /* reading progress — pure CSS, hidden where scroll timelines are unsupported */
