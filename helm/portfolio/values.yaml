@@ -5,7 +5,7 @@ image:
   # Managed by .github/workflows/build-and-release.yml — every push to main
   # rewrites this to the commit SHA, which is what triggers the Argo CD sync.
   # Do not set this back to a mutable tag.
-  tag: "5c56f49e42b48fd50b8724bc83105cb1419dea49"
+  tag: "b7873c8186b7124eb9a90100ca14b2d3298e1a32"
 
 resources:
   requests:
